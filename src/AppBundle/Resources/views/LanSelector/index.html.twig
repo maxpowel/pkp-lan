@@ -1,0 +1,26 @@
+<table>
+    <tr>
+        <td>
+            <img src="/Plano.jpg">
+        </td>
+        <td>
+            <a href="/logout">Cerrar sessión</a>
+            <ul>
+                {% for position in positions %}
+                    <li>{{ position.name }}:
+                        {% if position.user %}
+                            {% if position.user.id == user.id %}
+                                Ocupado por mi <a href="{{ path('free') }}">Liberar puesto</a>
+                            {% else %}
+                                Ocupado por {{ position.user.username }}
+                            {% endif %}
+                        {% else %}
+                            Libre <a href="{{ path('lanposition', {'id': position.id}) }}">Ocupar</a>
+                        {% endif %}
+                    </li>
+
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
