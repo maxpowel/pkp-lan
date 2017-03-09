@@ -1,26 +1,66 @@
-<table>
-    <tr>
-        <td>
-            <img src="/Plano.jpg">
-        </td>
-        <td>
-            <a href="/logout">Cerrar sessión</a>
-            <ul>
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title 'Selecciona tu puesto' %}
+
+{% block body %}
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">PKP</a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {#<li class="nav-item active">#}
+                    {#<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
+                {#</li>#}
+                {#<li class="nav-item">#}
+                    {#<a class="nav-link" href="#">Link</a>#}
+                {#</li>#}
+                {#<li class="nav-item">#}
+                    {#<a class="nav-link disabled" href="#">Disabled</a>#}
+                {#</li>#}
+            </ul>
+            <ul class="nav navbar-nav">
+                    <a class="nav-link" href="/logout">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </nav><br>
+
+
+<div class="container-fluid">
+    <div class="media">
+        <img class="d-flex mr-3" id="mapa" src="/Plano.jpg" alt="Generic placeholder image">
+        <div class="media-body">
+            <ul class="list-group">
                 {% for position in positions %}
-                    <li>{{ position.name }}:
+                    <li class="list-group-item">{{ position.name }}:
                         {% if position.user %}
                             {% if position.user.id == user.id %}
-                                Ocupado por mi <a href="{{ path('free') }}">Liberar puesto</a>
+                                {{ app.user.username }}
+                                &nbsp; <a href="{{ path('free') }}" class="btn btn-danger">Liberar</a>
                             {% else %}
-                                Ocupado por {{ position.user.username }}
+                                {{ position.user.username }}
                             {% endif %}
                         {% else %}
-                            Libre <a href="{{ path('lanposition', {'id': position.id}) }}">Ocupar</a>
+                            &nbsp; <a href="{{ path('lanposition', {'id': position.id}) }}" class="btn btn-success">Ocupar</a>
                         {% endif %}
                     </li>
 
                 {% endfor %}
             </ul>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
+</div>
+    <script>
+        var positions = [
+            {% for position in positions %}
+            {x: {{  position.x }}, y: {{  position.y }}, text: "{% if position.user %}{{ position.user.username }}{% else %}Libre{% endif %}"},
+            {% endfor %}
+        ]
+    </script>
+
+{% endblock %}

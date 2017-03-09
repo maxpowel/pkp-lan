@@ -56,6 +56,19 @@ class LanPosition
     protected $name;
 
     /**
+     * @var string
+     * @ORM\Column(type="integer")
+     */
+    protected $x;
+
+    /**
+     * @var string
+     * @ORM\Column(type="integer")
+     */
+    protected $y;
+
+
+    /**
      * Constructor of the Purchase class.
      * (Initialize some fields).
      */
@@ -142,6 +155,38 @@ class LanPosition
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+    }
+
+    /**
+     * @return string
+     */
+    public function getX()
+    {
+        return $this->x;
+    }
+
+    /**
+     * @param string $x
+     */
+    public function setX($x)
+    {
+        $this->x = $x;
+    }
+
+    /**
+     * @return string
+     */
+    public function getY()
+    {
+        return $this->y;
+    }
+
+    /**
+     * @param string $y
+     */
+    public function setY($y)
+    {
+        $this->y = $y;
     }
 
 
