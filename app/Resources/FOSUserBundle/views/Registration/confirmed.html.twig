@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">¡Todo listo {{ user.username }}!</h1>
+            <p>El registro se ha realizado con éxito y tu cuenta está activada. Puedes visitar el <a class="btn btn-success" href="{{ url('lanselector') }}">mapa de puestos</a> y seleccionar el tuyo cuando esté disponible</p>
+        </div>
+    </div>
+
+{% endblock %}

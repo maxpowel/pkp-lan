@@ -18,7 +18,7 @@ easy_admin:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: es
     app.path.product_images: /uploads/images/products
     app.path.user_contracts: /uploads/files/user/contracts
 
@@ -76,10 +76,39 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
+    resetting:
+      retry_ttl: 0
+    from_email:
+        address:        "lan@palenciakernelpanic.net"
+        sender_name:    "PKP Lan"
 
 swiftmailer:
-    transport: null
-    host:      null
-    username:  null
-    password:  null
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
     spool:     { type: memory }
+
+hwi_oauth:
+    connect:
+        account_connector: my.oauth_aware.user_provider.service
+    firewall_names: [main]
+    fosub:
+      username_iterations: 30
+      properties:
+          facebook:    facebook_id
+          google: google_id
+    resource_owners:
+      google:
+          type:                google
+          client_id:           "%google_client_id%"
+          client_secret:       "%google_secret%"
+          scope:               "email profile"
+      facebook:
+          type:                facebook
+          client_id:           "%facebook_client_id%"
+          client_secret:       "%facebook_secret%"
+          scope:               "email public_profile"
+          options:
+                display: popup #dialog is optimized for popup window
+                auth_type: rerequest # Re-asking for Declined Permissions

@@ -24,7 +24,7 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var Purchase[]
+     * @var Subscription[]
      *
      * @ORM\OneToMany(targetEntity="Subscription", mappedBy="user", cascade={"remove"})
      */
@@ -165,4 +165,141 @@ class User extends BaseUser
         ) = unserialize($serialized);
     }
 
+
+    //Social
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $name;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $profileImageUrl;
+
+    // Social identifiers
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $googleId;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $googleAccessToken;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $facebookId;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $facebookAccessToken;
+
+    /**
+     * @return mixed
+     */
+    public function getGoogleId()
+    {
+        return $this->googleId;
+    }
+
+    /**
+     * @param mixed $googleId
+     */
+    public function setGoogleId($googleId)
+    {
+        $this->googleId = $googleId;
+        // Get profile image
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://picasaweb.google.com/data/entry/api/user/103977403080544158575?alt=json");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+        $imageUrl = $data["entry"]['gphoto$thumbnail']['$t'];
+        $this->setProfileImageUrl($imageUrl);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGoogleAccessToken()
+    {
+        return $this->googleAccessToken;
+    }
+
+    /**
+     * @param mixed $googleAccessToken
+     */
+    public function setGoogleAccessToken($googleAccessToken)
+    {
+        $this->googleAccessToken = $googleAccessToken;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param mixed $facebookId
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+        $this->setProfileImageUrl("http://graph.facebook.com/v2.8/".$facebookId."/picture");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebookAccessToken;
+    }
+
+    /**
+     * @param mixed $facebookAccessToken
+     */
+    public function setFacebookAccessToken($facebookAccessToken)
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfileImageUrl()
+    {
+        return $this->profileImageUrl;
+    }
+
+    /**
+     * @param mixed $profileImageUrl
+     */
+    public function setProfileImageUrl($profileImageUrl)
+    {
+        $this->profileImageUrl = $profileImageUrl;
+    }
 }

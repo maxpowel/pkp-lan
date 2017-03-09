@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">¡Bienvenido!</h1>
+            <p>Si te estás registrando es porque piensas asistir a una party de PKP, no te arrepentirás. Tan sólo tienes que rellenar el siguiente formulario. ¡Y no te olvides de las vacunas antes de venir!</p>
+        </div>
+    </div>
+    <div class="container">
+        {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+            <div class="form-group">
+                {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+                <small id="emailHelp" class="form-text text-muted">Es privado y nunca se mostrará. Quedará entre tu, PKP y la NSA</small>
+            </div>
+            <div class="form-group">
+                {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Registrarme</button>
+        {{ form_end(form) }}
+
+    </div>
+
+{% endblock %}

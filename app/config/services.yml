@@ -4,6 +4,12 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+  my.oauth_aware.user_provider.service:
+      class: AppBundle\Security\Core\User\MyFOSUBUserProvider
+      arguments: ['@fos_user.user_manager', { google: google_id, facebook: facebook_id }]
+
+  user.password_resetting:
+      class: AppBundle\EventListener\PasswordResettingListener
+      arguments: [ '@router' ]
+      tags:
+          - { name: kernel.event_subscriber }

@@ -8,3 +8,11 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    mailer_transport: smtp
+    mailer_host: smtp.mailgun.org
+    mailer_user: postmaster@domain.com
+    mailer_password: lolazo
+    google_client_id: google_id
+    google_secret: google_secret
+    facebook_client_id: facebook_id
+    facebook_secret: facebook_secret
